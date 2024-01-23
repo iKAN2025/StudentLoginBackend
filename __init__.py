@@ -3,6 +3,12 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
+import os
+
+
+
+
+
 """
 These object can be used throughout project.
 1.) Objects from this file can be included in many blueprints
@@ -16,9 +22,12 @@ CORS(app, resources={r"/api/*": {"origins": "https://jplip.github.io"}})
 dbURI = 'sqlite:///volumes/sqlite.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = dbURI
-app.config['SECRET_KEY'] = 'SECRET_KEY'
+SECRET_KEY = os.environ.get('SECRET_KEY') or 'SECRET_KEY'
+app.config['SECRET_KEY'] = SECRET_KEY
 db = SQLAlchemy()
 Migrate(app, db)
+
+
 
 # Images storage
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # maximum size of uploaded content
